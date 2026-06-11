@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hanna - UX/UI Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-surface": "#e2e2e2",
+                        "tertiary-fixed-dim": "#ffb785",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#1e2020",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface-container-high": "#282a2b",
+                        "surface-bright": "#38393a",
+                        "primary-fixed": "#e3dfff",
+                        "surface-tint": "#c4c0ff",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "secondary": "#c8c6c5",
+                        "on-tertiary-fixed": "#301400",
+                        "primary-container": "#8781ff",
+                        "primary-fixed-dim": "#c4c0ff",
+                        "inverse-on-surface": "#2f3131",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-primary": "#2000a4",
+                        "inverse-surface": "#e2e2e2",
+                        "surface-container-lowest": "#0c0f0f",
+                        "outline": "#918fa1",
+                        "on-error": "#690005",
+                        "on-background": "#e2e2e2",
+                        "on-secondary": "#313030",
+                        "surface-container-highest": "#333535",
+                        "inverse-primary": "#4f44e2",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary-container": "#1b0091",
+                        "background": "#121414",
+                        "on-primary-fixed-variant": "#3622ca",
+                        "on-secondary-fixed-variant": "#474746",
+                        "outline-variant": "#464555",
+                        "surface-variant": "#333535",
+                        "secondary-container": "#474746",
+                        "tertiary-container": "#db761f",
+                        "surface": "#121414",
+                        "on-surface-variant": "#c7c4d8",
+                        "tertiary": "#ffb785",
+                        "on-tertiary": "#502500",
+                        "on-primary-fixed": "#100069",
+                        "primary": "#c4c0ff",
+                        "on-tertiary-container": "#461f00",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "surface-dim": "#121414",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "24px",
+                        "gutter": "32px",
+                        "section-gap": "160px",
+                        "container-max": "1440px",
+                        "element-gap": "24px",
+                        "margin-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "body-lg": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["20px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["80px", { "lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0A0A0A; /* Tonal Level 0 per spec */
+        }
+        .surface-card {
+            background-color: #141414; /* Tonal Level 1 per spec */
+        }
+        .surface-hover:hover {
+            background-color: #1A1A1A; /* Tonal Level 2 per spec */
+        }
+        .text-accent {
+            color: #6C63FF;
+        }
+        .bg-accent {
+            background-color: #6C63FF;
+        }
+        .border-accent {
+            border-color: #6C63FF;
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl bg-transparent flat no shadows flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 max-w-container-max mx-auto">
+<a class="font-display-lg text-headline-md text-on-surface dark:text-on-surface tracking-tighter" href="#">H</a>
+<div class="hidden md:flex gap-element-gap">
+<a class="font-label-caps text-label-caps text-on-surface dark:text-on-surface hover:text-on-surface dark:hover:text-on-surface transition-all duration-300" href="#work">Work</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors" href="#tools">Tools</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors" href="#skills">Skills</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors" href="#contact">Contact</a>
+</div>
+<button aria-label="Menu" class="md:hidden text-on-surface">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</nav>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- HERO -->
+<section class="min-h-[100vh] flex flex-col justify-center relative pt-32 pb-section-gap">
+<div class="absolute inset-0 z-[-1] opacity-30" style="background-image: url('https://lh3.googleusercontent.com/aida/ADBb0ugrB4mMmdBE5i9GXCMeRDiy7nffzQf6zTWM7sbC4Ge4g2-pxe9eox1cWyjYnlhXLhHwVwF1ws5YMxzG1pwVmzI_B1VmlGKLYzujgUOep1GZrfxeC4Xy_v0NEXH2lIdCgkBYKYVxRerCrcwG38fyS--5s6NTBF7-qzXLhUy8V9EZI2xuZO3xwT9uRqEcIFYr_SakPTelv4GzTztL4JrrZXJXY5QvpwP9s2HqVkxTAxzinHaSWPzWJcs58g'); background-size: cover; background-position: center;"></div>
+<div class="md:col-span-8 lg:col-span-10 z-10 max-w-4xl">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8">Hi, I am Hanna</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12 max-w-2xl">UX/UI Designer crafting research-driven digital experiences</p>
+<div class="flex flex-col sm:flex-row gap-6">
+<a class="bg-accent text-white px-8 py-4 rounded font-label-caps text-label-caps hover:bg-opacity-90 transition-opacity text-center inline-block" href="#work">View Work</a>
+<a class="px-8 py-4 rounded font-label-caps text-label-caps border-b border-transparent hover:border-on-surface transition-colors text-center inline-block" href="#contact">Contact Me</a>
+</div>
+</div>
+</section>
+<!-- WORK -->
+<section class="py-section-gap" id="work">
+<div class="mb-16">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Work</h2>
+</div>
+<div class="flex flex-col gap-32">
+<!-- Card 1 (HONK) -->
+<div class="group surface-card surface-hover rounded-xl overflow-hidden transition-colors duration-500 flex flex-col md:flex-row">
+<div class="md:w-1/2 overflow-hidden">
+<img alt="" class="w-full h-full object-cover aspect-[1.34] transform group-hover:scale-[1.02] transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uiKQTNHQbh3zEhAWeF4mvA_Sj-aRdnhB9727w0-cn4kR_5DzDwhNDaUJiUD5CzQ1ZnzuZflxiKZrZ8ybmMzZjYWMt8kyOHWRo61PJgNBlBNXwkCpWLcRNmdibirEogidMSiYCUWkkZwmy_DmI3HgSJzCnTgeAEl8UJoqRRp03nixguvI3po4ktum5jZbtZ6rWw27wQRFfP0Kw5bse1xGXAIyoRyBOmpxTk9SA0DcllTrDhdhWiun4zDpBI"/>
+</div>
+<div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4 block">Mobile App · UX/UI Design</span>
+<h3 class="font-headline-md text-headline-md mb-6">Reducing Friction on HONK Parking App in Canada</h3>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Figma</span>
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Visily</span>
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Skype</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Role: Product Designer · Team: 3 · Duration: 6 weeks</p>
+</div>
+</div>
+<!-- Card 2 (JIBETO) -->
+<div class="group surface-card surface-hover rounded-xl overflow-hidden transition-colors duration-500 flex flex-col md:flex-row-reverse">
+<div class="md:w-1/2 overflow-hidden">
+<img alt="" class="w-full h-full object-cover aspect-[1.34] transform group-hover:scale-[1.02] transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0uiPqpqy00Doixf2Z3C69-yrA9YOVy0sea4RnCvTG2iCNwVIfhQ7m4l3FC9rF6qiLaMBCQl5_brQNIATgoWvAti-Fweb-reljj9dsw1zCEbCBca4nLJIV24-_U8l1ImsU8ldrEGvmMoojHj5fNX2dnbDOzHz5-K105sWfSeVlYdQj1zTsrtzU1Evt_iTzNy5bKYv_8cmlUb3lGEVHMdzxn09F7E_igTcP57QMglYcm7R4j6Erf_wiNaZhn4"/>
+</div>
+<div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4 block">Mobile App · UX/UI Design</span>
+<h3 class="font-headline-md text-headline-md mb-6">Streamlining Budget Management for Jibeto Financial App</h3>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Figma</span>
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Maze</span>
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Illustrator</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Duration: 18 weeks · 60+ Screens</p>
+</div>
+</div>
+<!-- Card 3 (BEAUTIYA) -->
+<div class="group surface-card surface-hover rounded-xl overflow-hidden transition-colors duration-500 flex flex-col md:flex-row">
+<div class="md:w-1/2 overflow-hidden">
+<img alt="" class="w-full h-full object-cover aspect-[1.34] transform group-hover:scale-[1.02] transition-transform duration-700 ease-in-out" src="https://lh3.googleusercontent.com/aida/ADBb0ujmqNcZUz69htGs2S-wPSzoxvQuByC64qoeCCHZ29ZvRo0LFDfxdZd85ealU7CGqwpwsdhApEwAbawbi_18AQ062TehFxghtlONyjFXc1JBN5PoIkH41CC-F_-aUeoNtDKajxu8lxPbkCm3lSVs34VfjhlzGsPZlxsXKcuaEJz0z8fEOhmJACONVOx0qlk1yby-TYdRytfHNUsZ3q0ruhiqUckx2LEknvnw0nzipSYijJNXHuizwzYFO4s"/>
+</div>
+<div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4 block">Web · UX/UI Design</span>
+<h3 class="font-headline-md text-headline-md mb-6">Responsive Skincare &amp; Cosmetics Website for Beautiya</h3>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="bg-[#1A1A1A] text-[#F5F5F5] px-3 py-1 rounded text-xs font-label-caps">Figma</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TOOLS & SKILLS -->
+<section class="py-section-gap grid grid-cols-1 lg:grid-cols-2 gap-32">
+<!-- TOOLS -->
+<div id="tools">
+<div class="mb-12">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Tools</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="design_services">design_services</span>
+<span class="font-body-md text-body-md">Figma</span>
+</div>
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Maze</span>
+</div>
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Notion</span>
+</div>
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="brush">brush</span>
+<span class="font-body-md text-body-md">Illustrator</span>
+</div>
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="grid_view">grid_view</span>
+<span class="font-body-md text-body-md">Visily</span>
+</div>
+<div class="surface-card p-6 rounded-lg flex flex-col items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Miro</span>
+</div>
+</div>
+</div>
+<!-- SKILLS -->
+<div id="skills">
+<div class="mb-12">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Skills</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">UX Research</span></div>
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">UI Design</span></div>
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">Prototyping</span></div>
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">User Testing</span></div>
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">Wireframing</span></div>
+<div class="surface-card p-6 rounded-lg"><span class="font-body-md text-body-md">Workshops</span></div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<section class="py-section-gap" id="contact">
+<div class="max-w-3xl">
+<h2 class="font-headline-lg text-headline-lg mb-12">Let us build something great together</h2>
+<a class="font-body-lg text-body-lg text-on-surface hover:text-accent transition-colors block mb-12 border-b border-surface-variant pb-2 inline-block" href="mailto:hanieh.hesam@gmail.com">hanieh.hesam@gmail.com</a>
+<div class="flex gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">LinkedIn</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">Resume</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-20 bg-surface dark:bg-surface flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-element-gap max-w-container-max mx-auto border-t border-transparent bg-surface-container-low flat no shadows Transition-all duration-500 ease-in-out">
+<span class="font-label-caps text-label-caps text-on-surface">2024 Hanna</span>
+<div class="flex gap-element-gap">
+<a class="font-body-md text-body-md text-on-surface underline hover:text-primary dark:hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Resume</a>
+</div>
+</footer>
+</body></html>

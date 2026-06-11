@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jibeto Financial App — Hannah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0A0A0A;--surface:#141414;--text:#E8E8E8;--text-muted:#777;--accent:#6C63FF;--border:rgba(255,255,255,.07);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;line-height:1.6;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 80px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-size:22px;font-weight:700;letter-spacing:-.04em;color:var(--text);text-decoration:none;}
+    .back{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s,gap .2s;}
+    .back:hover{color:var(--text);gap:12px;}
+    .hero{padding:160px 0 80px;border-bottom:1px solid var(--border);}
+    .hero-inner{max-width:1440px;margin:0 auto;padding:0 160px;}
+    .cs-cat{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;}
+    .cs-title{font-size:clamp(36px,5vw,64px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:48px;max-width:800px;}
+    .cs-meta{display:flex;flex-wrap:wrap;gap:48px;padding-top:40px;border-top:1px solid var(--border);}
+    .meta-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+    .meta-value{font-size:15px;font-weight:500;}
+    .gallery{padding:0 160px 120px; max-width:1440px; margin:0 auto;}
+    .gallery img{width:100%;display:block;opacity:0;filter:blur(8px);transform:translateY(20px) scale(.98);transition:opacity .65s cubic-bezier(.34,1.56,.64,1),filter .65s,transform .65s cubic-bezier(.34,1.56,.64,1);}
+    .gallery img.in{opacity:1;filter:blur(0);transform:translateY(0) scale(1);}
+    footer{padding:36px 80px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .foot-copy{font-size:11px;color:var(--text-muted);}
+    .foot-back{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+    .foot-back:hover{color:var(--text);}
+    @media(max-width:768px){nav{padding:18px 24px;}.hero{padding:100px 0 48px;}.hero-inner{padding:0 24px;}.gallery{padding:0 24px 80px;}footer{padding:28px 24px;flex-direction:column;gap:16px;text-align:center;}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Hannah</a>
+  <a class="back" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </svg>
+    Back to Work
+  </a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="cs-cat">Mobile App · UX/UI Design</span>
+    <h1 class="cs-title">Streamlining Budget Management for Jibeto Financial App</h1>
+    <div class="cs-meta">
+      <div class="meta-item">
+        <div class="meta-label">Duration</div>
+        <div class="meta-value">18 weeks</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Screens</div>
+        <div class="meta-value">60+ Screens</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Tools</div>
+        <div class="meta-value">Figma, Maze, Illustrator, Notion</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">Android</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="gallery">
+  <img src="portfoli_cases/Jibeto/Header.png" alt="Jibeto case study header" loading="lazy">
+  <img src="portfoli_cases/Jibeto/01_project overview.png" alt="Project overview" loading="lazy">
+  <img src="portfoli_cases/Jibeto/02_problem&solution.png" alt="Problem and solution" loading="lazy">
+  <img src="portfoli_cases/Jibeto/03_designe process.png" alt="Design process" loading="lazy">
+  <img src="portfoli_cases/Jibeto/04_userinterviewe.png" alt="User interviews" loading="lazy">
+  <img src="portfoli_cases/Jibeto/05_afinity diagram.png" alt="Affinity diagram" loading="lazy">
+  <img src="portfoli_cases/Jibeto/06_servey.png" alt="Survey results" loading="lazy">
+  <img src="portfoli_cases/Jibeto/07_persona.png" alt="User persona" loading="lazy">
+  <img src="portfoli_cases/Jibeto/08_competitive.png" alt="Competitive analysis" loading="lazy">
+  <img src="portfoli_cases/Jibeto/09_moscow.png" alt="MoSCoW prioritization" loading="lazy">
+  <img src="portfoli_cases/Jibeto/010_basich feature,key feature.png" alt="Basic and key features" loading="lazy">
+  <img src="portfoli_cases/Jibeto/011_Home.png" alt="Home screen" loading="lazy">
+  <img src="portfoli_cases/Jibeto/012_userflow.png" alt="User flow" loading="lazy">
+  <img src="portfoli_cases/Jibeto/013_ui kit.png" alt="UI Kit" loading="lazy">
+  <img src="portfoli_cases/Jibeto/014_ui kit.png" alt="UI Kit continued" loading="lazy">
+  <img src="portfoli_cases/Jibeto/015_itration.png" alt="Iterations" loading="lazy">
+  <img src="portfoli_cases/Jibeto/016_usability test.png" alt="Usability testing" loading="lazy">
+  <img src="portfoli_cases/Jibeto/017_onbording ui.png" alt="Onboarding UI" loading="lazy">
+  <img src="portfoli_cases/Jibeto/018_budjeting screen.png" alt="Budgeting screens" loading="lazy">
+  <img src="portfoli_cases/Jibeto/018-massage screen.png" alt="Messaging screens" loading="lazy">
+  <img src="portfoli_cases/Jibeto/020_other ui screen.png" alt="Other UI screens" loading="lazy">
+  <img src="portfoli_cases/Jibeto/021_next step& learning.png" alt="Next steps and learnings" loading="lazy">
+</div>
+
+<footer>
+  <span class="foot-copy">© 2024 Hannah</span>
+  <a class="foot-back" href="index.html">← Back to portfolio</a>
+</footer>
+
+<script>
+  const imgs = document.querySelectorAll('.gallery img');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.08});
+  imgs.forEach(img=>io.observe(img));
+</script>
+</body>
+</html>
