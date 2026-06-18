@@ -28,7 +28,16 @@
     .foot-copy{font-size:11px;color:var(--text-muted);}
     .foot-back{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color .2s;}
     .foot-back:hover{color:var(--text);}
-    @media(max-width:768px){nav{padding:18px 24px;}.hero{padding:100px 0 48px;}.hero-inner{padding:0 24px;}.gallery{padding:0 24px 80px;}footer{padding:28px 24px;flex-direction:column;gap:16px;text-align:center;}}
+    .cta-proto{display:inline-flex;align-items:center;padding:10px 20px;background:var(--accent);color:#0A0A0A;text-decoration:none;font-weight:600;font-size:12px;letter-spacing:.08em;border-radius:8px;transition:all .2s;text-transform:uppercase;cursor:pointer;}
+    .cta-proto:hover{transform:translateY(-2px);opacity:.9;}
+    .prototype-section{margin:100px auto;max-width:1400px;padding:0 24px;}
+    .prototype-container{width:100%;}
+    .prototype-section h2{margin-bottom:16px;}
+    .prototype-description{max-width:700px;margin-bottom:24px;line-height:1.7;}
+    .prototype-button{display:inline-block;margin-bottom:32px;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:600;background:var(--accent);color:#0A0A0A;transition:.2s ease;}
+    .prototype-button:hover{transform:translateY(-2px);}
+    .prototype-frame{width:100%;height:900px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:var(--surface);}
+    @media(max-width:768px){nav{padding:18px 24px;}.hero{padding:100px 0 48px;}.hero-inner{padding:0 24px;}.gallery{padding:0 24px 80px;}.prototype-section{padding:0 24px;margin:60px auto;}footer{padding:28px 24px;flex-direction:column;gap:16px;text-align:center;}.prototype-frame{height:650px;}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
   </style>
 </head>
@@ -36,12 +45,15 @@
 
 <nav>
   <a class="nav-logo" href="index.html">Hannah</a>
-  <a class="back" href="index.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-    </svg>
-    Back to Work
-  </a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <a class="cta-proto" href="#prototype-section">View Prototype</a>
+    <a class="back" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Back to Work
+    </a>
+  </div>
 </nav>
 
 <div class="hero">
@@ -93,6 +105,32 @@
   <img src="portfoli_cases/Jibeto/020_other ui screen.png" alt="Other UI screens" loading="lazy">
   <img src="portfoli_cases/Jibeto/021_next step& learning.png" alt="Next steps and learnings" loading="lazy">
 </div>
+
+<section class="prototype-section" id="prototype-section">
+  <div class="prototype-container">
+    <h2>Interactive Prototype</h2>
+
+    <p class="prototype-description">
+      Explore the final Jibeto experience through the interactive prototype below.
+      You can also open it in a separate tab for a full-screen experience.
+    </p>
+
+    <a
+      href="https://www.figma.com/proto/3KvmTam1HXicPExP0vmiMD/%F0%9F%92%B8-Jibeto-prototype-for-Behance?node-id=1-2018&p=f&viewport=2721%2C459%2C0.2&t=HznOBl8V23qppaSU-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A1820&show-proto-sidebar=1&page-id=0%3A1"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="prototype-button"
+    >
+      Open Full Prototype →
+    </a>
+
+    <iframe
+      class="prototype-frame"
+      src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/3KvmTam1HXicPExP0vmiMD/%F0%9F%92%B8-Jibeto-prototype-for-Behance?node-id=1-2018&p=f&viewport=2721%2C459%2C0.2&t=HznOBl8V23qppaSU-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A1820&show-proto-sidebar=1&page-id=0%3A1"
+      allowfullscreen
+    ></iframe>
+  </div>
+</section>
 
 <footer>
   <span class="foot-copy">© 2024 Hannah</span>
