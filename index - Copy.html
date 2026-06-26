@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hannah — UX/UI Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --surface: #141414;
+      --surface-hover: #1c1c1c;
+      --text: #E8E8E8;
+      --text-muted: #777;
+      --accent: #6C63FF;
+      --accent-glow: rgba(108,99,255,0.25);
+      --border: rgba(255,255,255,0.07);
+      --r-sm: 8px;
+      --r-md: 16px;
+      --r-lg: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes wordIn {
+      0%   { opacity:0; filter:blur(10px); transform:translateY(40px); }
+      50%  { opacity:.5; filter:blur(4px); transform:translateY(-4px); }
+      100% { opacity:1; filter:blur(0); transform:translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { transform:scaleX(0); }
+      to   { transform:scaleX(1); }
+    }
+
+    /* scroll-enter base */
+    .anim {
+      opacity: 0;
+      filter: blur(12px);
+      transform: translateY(28px);
+      transition:
+        opacity .7s cubic-bezier(.25,.46,.45,.94),
+        filter  .7s cubic-bezier(.25,.46,.45,.94),
+        transform .7s cubic-bezier(.25,.46,.45,.94);
+    }
+    .anim.in { opacity:1; filter:blur(0); transform:translateY(0); }
+    .d1 { transition-delay:.09s; }
+    .d2 { transition-delay:.18s; }
+    .d3 { transition-delay:.27s; }
+    .d4 { transition-delay:.36s; }
+    .d5 { transition-delay:.45s; }
+    .d6 { transition-delay:.54s; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      padding: 22px 80px;
+      display: flex; justify-content:space-between; align-items:center;
+      background: rgba(10,10,10,.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 22px; font-weight:700; letter-spacing:-.04em;
+      color: var(--text); text-decoration:none;
+    }
+    .nav-links { display:flex; gap:40px; list-style:none; }
+    .nav-links a {
+      font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      color: var(--text-muted); text-decoration:none; position:relative;
+      transition: color .25s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-3px; left:0; width:100%; height:1px;
+      background: var(--text); transform:scaleX(0); transform-origin:left;
+      transition: transform .25s cubic-bezier(.25,.46,.45,.94);
+    }
+    .nav-links a:hover { color:var(--text); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+
+    .hamburger {
+      display:none; background:none; border:none; cursor:pointer; color:var(--text); padding:4px;
+    }
+    .mob-menu {
+      display:none; position:fixed; inset:0; z-index:99;
+      background:rgba(10,10,10,.97); flex-direction:column;
+      justify-content:center; align-items:center; gap:48px;
+    }
+    .mob-menu.open { display:flex; }
+    .mob-menu a { font-size:36px; font-weight:700; color:var(--text); text-decoration:none; }
+    .mob-close {
+      position:absolute; top:24px; right:24px;
+      background:none; border:none; color:var(--text); cursor:pointer;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height:100vh; display:flex; align-items:center;
+      padding: 120px 80px 80px; position:relative; overflow:hidden;
+      isolation: isolate; z-index: 1;
+    }
+    .hero-inner { width:100%; z-index:1; text-align:center; display:flex; flex-direction:column; align-items:center; }
+    .hero-label {
+      display:block; font-size:11px; font-weight:700; letter-spacing:.16em;
+      text-transform:uppercase; color:var(--accent); margin-bottom:28px;
+    }
+    .hero-h1 {
+      font-size: clamp(52px,8vw,96px); font-weight:700; line-height:1.0;
+      letter-spacing:-.04em; margin-bottom:28px;
+      display:flex; flex-wrap:wrap; gap:.08em .28em; justify-content:center;
+    }
+    .hero-h1 .w {
+      display:inline-block; opacity:0; filter:blur(10px); transform:translateY(40px);
+    }
+    .hero-h1 .w.in { animation: wordIn .7s cubic-bezier(.25,.46,.45,.94) forwards; }
+    .hero-h1 .accent { color: var(--accent); }
+
+    .hero-sub {
+      font-size:20px; line-height:1.65; color:var(--text-muted);
+      max-width:520px; margin-bottom:48px; text-align:center;
+      opacity:0; filter:blur(8px); transform:translateY(20px);
+      transition: all .7s cubic-bezier(.25,.46,.45,.94) .85s;
+    }
+    .hero-sub.in { opacity:1; filter:blur(0); transform:translateY(0); }
+    .hero-ctas {
+      display:flex; gap:16px; flex-wrap:wrap;
+      opacity:0; transform:translateY(16px);
+      transition: all .7s cubic-bezier(.25,.46,.45,.94) 1.05s;
+    }
+    .hero-ctas.in { opacity:1; transform:translateY(0); }
+
+    /* buttons */
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      text-decoration:none; padding:14px 28px; border-radius:var(--r-sm);
+      cursor:pointer; border:none;
+      transition: transform .2s cubic-bezier(.4,0,.2,1), box-shadow .2s;
+    }
+    .btn:active { transform:scale(.97) !important; }
+    .btn-fill { background:var(--accent); color:#fff; }
+    .btn-fill:hover { transform:scale(1.05); box-shadow:0 8px 32px var(--accent-glow); }
+    .btn-outline { background:transparent; color:var(--text); border:1px solid var(--border); }
+    .btn-outline:hover { transform:scale(1.05); border-color:rgba(255,255,255,.25); }
+
+    /* ── SECTION SHELL ── */
+    .sec { padding:120px 80px; }
+    .sec-label {
+      display:inline-block; font-size:10px; font-weight:700; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--text-muted); margin-bottom:64px;
+      position:relative;
+    }
+    .sec-label::after {
+      content:''; position:absolute; bottom:-10px; left:0; width:100%; height:1px;
+      background:var(--accent); transform:scaleX(0); transform-origin:left;
+    }
+    .sec-label.in::after { animation: scaleIn .9s cubic-bezier(.76,0,.24,1) .15s forwards; }
+
+    /* ── WORK — STICKY FOLDING STACK ──
+       Identical to stacky.framer.website:
+       • All cards are direct siblings inside one scroll container — no wrappers.
+       • Each card is position:sticky with top increasing by PEEK_H (48px) per card.
+       • Later cards in the DOM appear on top (natural z stacking).
+       • When you scroll, each new card slides up and covers the previous one,
+         leaving only its PEEK_H strip visible — exactly like dealing cards.
+       • Slightly increasing max-width per card creates a perspective fan.
+    */
+    .work-sticky-section {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .work-section-header { padding: 120px 80px 64px; }
+
+    /* The stack container — all 3 sticky cards live directly inside this */
+    .work-stack {
+      position: relative;
+      /* bottom padding keeps the full last card visible after scrolling */
+      padding-bottom: 320px;
+    }
+
+    .work-card-sticky {
+      position: sticky;
+      /* top & max-width set per-card via inline style */
+      width: calc(100% - 160px);
+      margin: 0 auto;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      background: var(--surface);
+      transform-origin: top center;
+      /* transition only for hover bg; transform is JS-driven */
+      transition: background .4s, box-shadow .4s;
+    }
+    .work-card-sticky:hover {
+      background: var(--surface-hover);
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    }
+
+    /* ── PEEK STRIP ──
+       This 48px bar is what shows when a card is buried under the next one.
+       Height must equal the step between each card's `top` value.
+    */
+    .card-peek {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-peek-num  { font-size:10px; font-weight:700; letter-spacing:.14em; color:var(--text-muted); }
+    .card-peek-name { font-size:13px; font-weight:600; color:var(--text); flex:1; }
+    .card-peek-cat  { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+
+    /* ── CARD BODY ── */
+    .card-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+    }
+    .card-inner.rev { direction: rtl; }
+    .card-inner.rev > * { direction: ltr; }
+
+    .wc-img { overflow: hidden; display: flex; align-items: stretch; }
+    .wc-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block;
+      transition: transform .7s cubic-bezier(.25,.46,.45,.94), filter .7s;
+      filter: brightness(.88);
+    }
+    .wc-img.contain img {
+      object-fit: contain; object-position: center;
+      background: var(--surface);
+    }
+    .work-card-sticky:hover .wc-img img { transform: scale(1.04); filter: brightness(1); }
+    .wc-body { padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; }
+    .wc-cat {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .wc-title { font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -.02em; margin-bottom: 20px; }
+    .wc-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .tag {
+      background: rgba(255,255,255,.06); color: rgba(232,232,232,.65);
+      padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .06em;
+    }
+    .wc-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 36px; }
+    .wc-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--text); text-decoration:none;
+      padding-bottom:3px; border-bottom:1px solid var(--accent); width:fit-content;
+      transition:gap .2s, color .2s;
+    }
+    .wc-cta svg { width:13px; height:13px; transition:transform .2s; }
+    .wc-cta:hover { gap:14px; color:var(--accent); }
+    .wc-cta:hover svg { transform:translateX(3px); }
+
+    /* ── TOOLS + WAYS OF WORKING — centered 3×2 icon card grid ── */
+    .tools-header { margin-bottom: 48px; text-align: center; }
+    .tools-h {
+      font-size: clamp(26px, 3.5vw, 40px); font-weight: 700;
+      letter-spacing: -.03em; margin-bottom: 10px; text-align: center;
+    }
+    .tools-sub-text { font-size: 15px; color: var(--text-muted); text-align: center; }
+    .tools-sub-text { margin-bottom: 40px; }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .icon-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 40px 20px 32px;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      transition: background .3s, transform .3s cubic-bezier(.25,.46,.45,.94), box-shadow .3s;
+    }
+    .icon-card:hover {
+      background: var(--surface-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+    }
+    .ic-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: rgba(108,99,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 8px;
+    }
+    .ic-icon {
+      width: 26px; height: 26px;
+      filter: brightness(0) invert(1); opacity: .88;
+    }
+    .ic-num {
+      font-size: 10px; font-weight: 700; letter-spacing: .16em; color: var(--accent);
+    }
+    .ic-title { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+    .ic-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+    /* ── ABOUT CARD — same width as work cards ── */
+    .about-section { padding: 0 80px 120px; }
+    .about-card {
+      width: calc(100% - 160px); max-width: 1130px; margin: 0 auto;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-lg); display: grid;
+      grid-template-columns: 280px 1fr;
+      transition: box-shadow .35s;
+    }
+    .about-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+    .about-img-wrap {
+      overflow: hidden;
+      min-height: 320px; border-right: 1px solid var(--border);
+      border-radius: var(--r-lg) 0 0 var(--r-lg);
+    }
+    .about-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+    }
+    .about-body {
+      padding: 52px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-greeting {
+      font-size: clamp(26px, 3vw, 36px); font-weight: 700;
+      letter-spacing: -.03em; margin-bottom: 16px;
+    }
+    .about-desc {
+      font-size: 15px; line-height: 1.75; color: var(--text-muted);
+      max-width: 480px; margin-bottom: 36px;
+    }
+    .about-btn {
+      align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; padding: 14px 28px; border-radius: var(--r-sm);
+      background: var(--accent); color: #fff;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .about-btn:hover { transform: scale(1.05); box-shadow: 0 8px 32px var(--accent-glow); }
+
+    /* ── CONTACT ── */
+    .contact-sec { padding:120px 80px; text-align:center; display:flex; flex-direction:column; align-items:center; }
+    .contact-h {
+      font-size:clamp(38px,5vw,68px); font-weight:700; line-height:1.1;
+      letter-spacing:-.03em; max-width:700px; margin-bottom:16px;
+    }
+    .contact-sub { font-size:16px; color:var(--text-muted); margin-bottom:48px; }
+    .contact-email {
+      display:inline-block; font-size:clamp(18px,3vw,34px); font-weight:600;
+      letter-spacing:-.02em; color:var(--accent); text-decoration:none;
+      margin-bottom:40px; position:relative;
+    }
+    .contact-email::after {
+      content:''; position:absolute; bottom:-3px; left:0; width:100%; height:2px;
+      background:var(--accent); transform:scaleX(0); transform-origin:center;
+      transition:transform .3s;
+    }
+    .contact-email:hover::after { transform:scaleX(1); }
+    .contact-socials { display:flex; gap:24px; justify-content:center; }
+    .soc-link {
+      font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--text-muted); text-decoration:none;
+      transition:color .2s, transform .2s;
+    }
+    .soc-link:hover { color:var(--text); transform:translateX(3px); }
+
+    /* ── RECOMMENDATIONS ── */
+    .recommendations-section { padding: 0 80px 120px; }
+    .recommendations-header { text-align: center; margin-bottom: 64px; }
+    .rec-h { font-size: clamp(26px, 3.5vw, 40px); font-weight: 700; letter-spacing: -.03em; margin-bottom: 10px; }
+    .rec-sub { font-size: 15px; color: var(--text-muted); }
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .rec-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 32px;
+      transition: background .3s, box-shadow .3s;
+      display: flex; flex-direction: column;
+    }
+    .rec-card:hover { background: var(--surface-hover); box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+    .rec-author { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .rec-title { font-size: 12px; color: var(--accent); margin-bottom: 12px; letter-spacing: .05em; }
+    .rec-relation { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+    .rec-date { font-size: 10px; color: var(--text-muted); margin-bottom: 16px; }
+    .rec-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; flex: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding:36px 80px; border-top:1px solid var(--border);
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .foot-copy { font-size:11px; color:var(--text-muted); letter-spacing:.05em; }
+    .foot-links { display:flex; gap:28px; }
+    .foot-links a {
+      font-size:11px; color:var(--text-muted); text-decoration:none;
+      transition:color .2s;
+    }
+    .foot-links a:hover { color:var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      nav { padding:18px 24px; }
+      .nav-links { display:none; }
+      .hamburger { display:block; }
+      .hero { padding:100px 24px 60px; }
+      .sec { padding:80px 24px; }
+      /* Work sticky — disable on mobile, show flat */
+      .work-section-header { padding: 80px 24px 48px; }
+      .work-stack { padding-bottom: 0; }
+      .work-card-sticky {
+        position: relative !important;
+        top: auto !important;
+        max-width: 100% !important;
+        width: calc(100% - 48px) !important;
+        transform: none !important;
+        margin-bottom: 4px;
+      }
+      .card-inner { grid-template-columns: 1fr; min-height: auto; }
+      .card-inner.rev { direction: ltr; }
+      .wc-img { height: 240px; }
+      .wc-img img { height: 240px; }
+      .wc-body { padding: 32px 28px; }
+      .wc-title { font-size: 20px; }
+      .icon-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+      .about-section { padding: 0 24px 80px; }
+      .about-card { grid-template-columns: 1fr; width: calc(100% - 48px); max-width: 100%; }
+      .about-img-wrap { min-height: 200px; border-right: none; border-bottom: 1px solid var(--border); border-radius: var(--r-lg) var(--r-lg) 0 0; }
+      .about-body { padding: 32px 28px; }
+      .recommendations-section { padding: 0 24px 80px; }
+      .rec-grid { grid-template-columns: 1fr; }
+      .contact-sec { padding:80px 24px; }
+      footer { padding:28px 24px; flex-direction:column; gap:16px; text-align:center; }
+    }
+    @media(max-width:480px){
+      .icon-grid { grid-template-columns: 1fr; }
+      .icon-card { padding: 32px 16px 24px; }
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Hannah</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#skills">Ways of working</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="ham" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()" aria-label="Close">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <a href="#work" onclick="closeMob()">Work</a>
+  <a href="#tools" onclick="closeMob()">Tools</a>
+  <a href="#skills" onclick="closeMob()">Ways of working</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-label anim" id="hLabel">UX / UI Designer</span>
+    <h1 class="hero-h1" id="hTitle" aria-label="Hi, I am Hannah">
+      <span class="w">Hi,</span>
+      <span class="w">I&nbsp;am</span>
+      <span class="w accent">Hannah</span>
+    </h1>
+    <p class="hero-sub" id="hSub">
+      I craft research-driven digital experiences — from discovery to pixel-perfect handoff.
+    </p>
+    <div class="hero-ctas" id="hCtas">
+      <a href="#work" class="btn btn-fill">View Work</a>
+      <a href="#contact" class="btn btn-outline">Contact Me</a>
+    </div>
+  </div>
+</section>
+
+<!-- WORK — Identical sticky fold to stacky.framer.website -->
+<!--
+  HOW THIS WORKS:
+  All 3 cards are direct siblings inside .work-stack (NO individual wrappers).
+  position:sticky + the cards' own natural height creates scroll distance.
+  Card 1 sticks at top:80px.  Card 2 scrolls up and sticks at top:128px,
+  leaving 48px of Card 1 visible above it.  Card 3 sticks at top:176px,
+  leaving 48px of Card 2 and 96px of Card 1 above it.
+  Result: a fan of peeking card tabs — identical to the Stacky fold effect.
+-->
+<section id="work" class="work-sticky-section">
+
+  <div class="work-section-header">
+  </div>
+
+  <div class="work-stack">
+
+    <!--
+      Card 1 — HONK
+      top: 80px  (nav height ~72px + small buffer)
+      max-width: 1100px  (narrowest — deepest in fan when buried)
+      z-order: first in DOM → sits behind Card 2 & 3 naturally
+    -->
+    <div class="work-card-sticky" style="top:80px; max-width:1100px;">
+      <div class="card-peek">
+        <span class="card-peek-num">01</span>
+        <span class="card-peek-name">HONK Parking App</span>
+        <span class="card-peek-cat">Mobile · UX/UI</span>
+      </div>
+      <div class="card-inner">
+        <div class="wc-img">
+          <img src="portfoli_cases/Honk/01_header.png" alt="HONK Parking App case study" loading="lazy">
+        </div>
+        <div class="wc-body">
+          <span class="wc-cat">Mobile App · UX/UI Design</span>
+          <h3 class="wc-title">Reducing Friction on HONK Parking App in Canada</h3>
+          <div class="wc-tags">
+            <span class="tag">Figma</span><span class="tag">Visily</span><span class="tag">Skype</span>
+          </div>
+          <p class="wc-meta">Role: Product Designer · Team: 3 · Duration: 6 weeks</p>
+          <a href="honk.html" class="wc-cta">
+            View Case Study
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      Card 2 — JIBETO
+      top: 128px  (= 80 + 48px peek strip)
+      max-width: 1120px  (medium — mid fan)
+      z-order: second → sits above Card 1, below Card 3
+    -->
+    <div class="work-card-sticky" style="top:128px; max-width:1115px;">
+      <div class="card-peek">
+        <span class="card-peek-num">02</span>
+        <span class="card-peek-name">Jibeto Financial App</span>
+        <span class="card-peek-cat">Mobile · UX/UI</span>
+      </div>
+      <div class="card-inner rev">
+        <div class="wc-img contain">
+          <img src="portfoli_cases/Jibeto/Header.png" alt="Jibeto Financial App case study" loading="lazy">
+        </div>
+        <div class="wc-body">
+          <span class="wc-cat">Mobile App · UX/UI Design</span>
+          <h3 class="wc-title">Streamlining Budget Management for Jibeto Financial App</h3>
+          <div class="wc-tags">
+            <span class="tag">Figma</span><span class="tag">Maze</span><span class="tag">Illustrator</span>
+          </div>
+          <p class="wc-meta">Duration: 18 weeks · 60+ Screens</p>
+          <a href="jibeto.html" class="wc-cta">
+            View Case Study
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      Card 3 — BEAUTIYA
+      top: 176px  (= 128 + 48px peek strip)
+      max-width: 1140px  (widest — frontmost in fan, full card visible)
+      z-order: last → naturally on top of Card 1 & 2
+    -->
+    <div class="work-card-sticky" style="top:176px; max-width:1130px;">
+      <div class="card-peek">
+        <span class="card-peek-num">03</span>
+        <span class="card-peek-name">Beautiya — Skincare Website</span>
+        <span class="card-peek-cat">Web · UX/UI</span>
+      </div>
+      <div class="card-inner">
+        <div class="wc-img contain">
+          <img src="portfoli_cases/beautiya/00_header.png" alt="Beautiya Cosmetics Website case study" loading="lazy">
+        </div>
+        <div class="wc-body">
+          <span class="wc-cat">Web · UX/UI Design</span>
+          <h3 class="wc-title">Responsive Skincare &amp; Cosmetics Website for Beautiya</h3>
+          <div class="wc-tags">
+            <span class="tag">Figma</span>
+          </div>
+          <p class="wc-meta">UX/UI Case Study · Responsive Web Design</p>
+          <a href="beautiya.html" class="wc-cta">
+            View Case Study
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.work-stack -->
+
+</section>
+
+<!-- TOOLS -->
+<section id="tools" class="sec">
+  <div class="tools-header">
+    <h2 class="tools-h anim">My favourite tools</h2>
+    <p class="tools-sub-text anim d1">These are the tools I use everyday</p>
+  </div>
+  <div class="icon-grid">
+    <div class="icon-card anim">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-figma.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Figma</span>
+      <span class="ic-desc">UX/UI Design &amp; Prototyping</span>
+    </div>
+    <div class="icon-card anim d1">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-maze.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Maze</span>
+      <span class="ic-desc">Unmoderated user testing</span>
+    </div>
+    <div class="icon-card anim d2">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-notion.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Notion</span>
+      <span class="ic-desc">Research docs &amp; notes</span>
+    </div>
+    <div class="icon-card anim d3">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-claude.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Claude</span>
+      <span class="ic-desc">AI-assisted design &amp; writing</span>
+    </div>
+    <div class="icon-card anim d4">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-visily.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Visily</span>
+      <span class="ic-desc">Wireframing &amp; ideation</span>
+    </div>
+    <div class="icon-card anim d5">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/tool-miro.svg" alt="" width="26" height="26">
+      </div>
+      <span class="ic-title">Miro</span>
+      <span class="ic-desc">Workshops &amp; affinity maps</span>
+    </div>
+  </div>
+</section>
+
+<!-- WAYS OF WORKING -->
+<section id="skills" class="sec" style="padding-top:0;">
+  <h2 class="tools-h anim">Ways of working 💡</h2>
+  <p class="tools-sub-text anim d1">How I approach product design from discovery to delivery</p>
+  <div class="icon-grid">
+    <div class="icon-card anim">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-research.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">User-Centered Research</h3>
+      <p class="ic-desc">Interviews, usability testing, and insights that uncover real user needs.</p>
+    </div>
+    <div class="icon-card anim d1">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-uidesign.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">Design Thinking</h3>
+      <p class="ic-desc">Framing problems, exploring opportunities, and validating solutions.</p>
+    </div>
+    <div class="icon-card anim d2">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-prototype.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">Cross-Functional Collaboration</h3>
+      <p class="ic-desc">Partnering with product managers, developers, and stakeholders to align goals.</p>
+    </div>
+    <div class="icon-card anim d3">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-testing.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">Rapid Prototyping</h3>
+      <p class="ic-desc">Creating interactive concepts to test ideas early and reduce risk.</p>
+    </div>
+    <div class="icon-card anim d4">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-wireframe.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">Data-Informed Decisions</h3>
+      <p class="ic-desc">Combining user feedback, analytics, and business objectives.</p>
+    </div>
+    <div class="icon-card anim d5">
+      <div class="ic-icon-wrap">
+        <img class="ic-icon" src="icons/wow-workshops.svg" alt="" width="26" height="26">
+      </div>
+      <h3 class="ic-title">Continuous Iteration</h3>
+      <p class="ic-desc">Refining experiences through testing, learning, and measurable outcomes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT CARD -->
+<section class="about-section">
+  <div class="about-card anim">
+    <div class="about-img-wrap">
+      <img src="portfoli_cases/hannah.jpg" alt="Hannah">
+    </div>
+    <div class="about-body">
+      <h2 class="about-greeting">Hi, I'm Hannah! 👋</h2>
+      <p class="about-desc">✨ UX/UI Designer focused on creating clear, intuitive digital experiences for complex products.<br><br>I enjoy translating business and user needs into structured, user-centered interfaces that improve usability, clarity, and overall product experience.<br><br>💡 My background includes: UX/UI design for fintech and data-driven products, designing dashboards and workflow-based interfaces, building responsive, scalable UI systems in Figma, and collaborating with cross-functional teams.<br><br>🚀 What I bring: Strong foundation in user-centered design principles, experience simplifying complex information and workflows, attention to visual hierarchy and accessibility, and a collaborative mindset.<br><br>🌱 Currently expanding my skills in AI-assisted UX workflows, product strategy, and advanced prototyping.</p>
+      <a href="mailto:hanieh.hesam@gmail.com" class="about-btn">Send me a message →</a>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section class="recommendations-section">
+  <div class="recommendations-header">
+    <h2 class="rec-h anim">Recommendations</h2>
+    <p class="rec-sub anim d1">Kind words from colleagues and collaborators</p>
+  </div>
+  <div class="rec-grid">
+    <div class="rec-card anim">
+      <div class="rec-author">Kimia Mohammadi</div>
+      <div class="rec-title">UX/UI Designer, UX Researcher</div>
+      <div class="rec-relation">Worked together on the same team</div>
+      <div class="rec-date">April 22, 2026</div>
+      <div class="rec-text">Hannah played a key role in improving the usability of a complex system. She has a strong ability to simplify multi-step user flows and bring clarity to structured platforms. Her approach to designing data-heavy dashboards was particularly impactful—translating complexity into clear, actionable insights. She approaches challenges methodically and communicates ideas clearly across teams.</div>
+    </div>
+    <div class="rec-card anim d1">
+      <div class="rec-author">Anahid (Anni) Salour</div>
+      <div class="rec-title">UX Designer | B2B SaaS & Marketplace</div>
+      <div class="rec-relation">Worked together on the same team</div>
+      <div class="rec-date">April 21, 2026</div>
+      <div class="rec-text">Hannah clearly approaches complex, data-heavy problems by understanding both user needs and business context. She brought clarity to a complex flow by reorganizing it into something much more intuitive. She's thoughtful in communication and makes collaboration across product and development seamless. A great fit for B2B SaaS teams.</div>
+    </div>
+    <div class="rec-card anim d2">
+      <div class="rec-author">Ali Jabbari Jahromi</div>
+      <div class="rec-title">Lead Design Manager</div>
+      <div class="rec-relation">Managed Hannah directly</div>
+      <div class="rec-date">April 15, 2026</div>
+      <div class="rec-text">Hannah is an integral team member bringing strong design capability and clear understanding of technical dynamics. She thinks beyond design by actively representing the end-user, with decisions supported by research and user engagement. She brings a well-rounded, dependable presence. Working with her is consistently smooth, professional, and genuinely enjoyable.</div>
+    </div>
+    <div class="rec-card anim d3">
+      <div class="rec-author">Moosa Yaghmaiee</div>
+      <div class="rec-title">Data Manager at Chortkeh Pardaz</div>
+      <div class="rec-relation">Worked on different teams</div>
+      <div class="rec-date">April 14, 2026</div>
+      <div class="rec-text">Hannah was key in designing dashboards for financial projects, bringing clarity to complex data. She's highly detail-oriented and doesn't just make things look good—she ensures design actually works for the end user. Her ability to translate data requirements into intuitive interfaces made a real difference in workflow and decision-making.</div>
+    </div>
+    <div class="rec-card anim d4">
+      <div class="rec-author">Eric Heden, PhD</div>
+      <div class="rec-title">Lead Data Scientist</div>
+      <div class="rec-relation">Worked on different teams</div>
+      <div class="rec-date">April 14, 2026</div>
+      <div class="rec-text">It was a pleasure working with Hannah. Her ideas are amazing and she's dedicated to creating high-quality, shareable content. She has a talent for identifying the target market and her ideas are always relevant. She routinely meets deadlines and produces excellent, original work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <h2 class="contact-h anim">Let's build something<br>great together.</h2>
+<a href="mailto:hanieh.hesam@gmail.com" class="contact-email anim d2">hanieh.hesam@gmail.com</a>
+  <div class="contact-socials anim d3">
+    <a href="https://www.linkedin.com/in/hannah-hesam/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bv1RwMyJSRaONhoY%2FcxsM%2FA%3D%3D" class="soc-link" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="resources/hannah_cv.pdf" class="soc-link" target="_blank" rel="noopener">Resume ↗</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="foot-copy">© 2024 Hannah. All rights reserved.</span>
+  <div class="foot-links">
+    <a href="https://www.linkedin.com/in/hannah-hesam/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bv1RwMyJSRaONhoY%2FcxsM%2FA%3D%3D" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="resources/hannah_cv.pdf" target="_blank" rel="noopener">Resume</a>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  document.getElementById('ham').addEventListener('click',()=>{
+    document.getElementById('mobMenu').classList.add('open');
+    document.body.style.overflow='hidden';
+  });
+  function closeMob(){
+    document.getElementById('mobMenu').classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  // Hero word animation
+  function runHero(){
+    const words = document.querySelectorAll('.hero-h1 .w');
+    words.forEach((w,i)=>{
+      setTimeout(()=>w.classList.add('in'), i*110);
+    });
+    const t = words.length * 110 + 120;
+    setTimeout(()=>{
+      document.getElementById('hLabel').classList.add('in');
+      document.getElementById('hSub').classList.add('in');
+      document.getElementById('hCtas').classList.add('in');
+    }, t);
+  }
+
+  // Intersection observer
+  function runScrollAnimations(){
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.1});
+
+    document.querySelectorAll('.anim').forEach(el=>io.observe(el));
+    document.querySelectorAll('.sec-label').forEach(el=>io.observe(el));
+  }
+
+  // ── Sticky card scale effect ──
+  // Matches Stacky: as each card scrolls out of its "own" space and gets
+  // buried, it scales down slightly (1.0 → 0.96) to reinforce the depth fold.
+  // Cards are direct siblings — we use their getBoundingClientRect top values
+  // relative to each other to determine burial progress.
+  function setupCardScaleEffect() {
+    if (window.matchMedia('(max-width:900px)').matches) return;
+
+    const cards = Array.from(document.querySelectorAll('.work-card-sticky'));
+    if (!cards.length) return;
+
+    function onScroll() {
+      cards.forEach((card, i) => {
+        const nextCard = cards[i + 1];
+        if (!nextCard) {
+          // Last card: never scale down
+          card.style.transform = 'scale(1)';
+          return;
+        }
+
+        // How far has the next card climbed over this one?
+        // When nextCard's rect.top equals nextCard's sticky top, it just stuck.
+        // Before that, nextCard is scrolling up toward this card.
+        const thisTop  = parseFloat(card.style.top)  || 80;
+        const nextTop  = parseFloat(nextCard.style.top) || 128;
+        const nextRect = nextCard.getBoundingClientRect();
+
+        // progress: 0 = next card's top is at bottom of viewport (not yet arrived)
+        //           1 = next card has fully covered this card (stuck at its top offset)
+        const travel   = window.innerHeight - nextTop; // distance next card needs to travel
+        const covered  = window.innerHeight - nextRect.top;
+        const progress = Math.max(0, Math.min(1, covered / travel));
+
+        // Scale this card from 1.0 → 0.95 as it gets buried
+        const scale = 1 - progress * 0.05;
+        card.style.transform = `scale(${scale})`;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  window.addEventListener('load',()=>{
+    window.scrollTo(0,0);
+    runHero();
+    runScrollAnimations();
+    setupCardScaleEffect();
+  });
+</script>
+</body>
+</html>
