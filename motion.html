@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hannah's Drawing — In Motion</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #b9a48a; /* fridge / metal vibe behind the paper */
+    background: linear-gradient(135deg, #c9b19a 0%, #a8917a 100%);
+    font-family: 'Patrick Hand', cursive;
+    padding: 24px;
+  }
+
+  /* The paper */
+  .paper {
+    position: relative;
+    width: min(92vw, 540px);
+    aspect-ratio: 540 / 620;
+    background: #fdfdfb;
+    border-radius: 6px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35), inset 0 0 60px rgba(0,0,0,.02);
+  }
+  svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+  /* ─────────── ANIMATIONS ─────────── */
+
+  /* Boy: a happy little bounce + tiny sway */
+  @keyframes happyBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25%      { transform: translateY(-10px) rotate(-2deg); }
+    50%      { transform: translateY(0) rotate(0deg); }
+    75%      { transform: translateY(-10px) rotate(2deg); }
+  }
+  #boy { animation: happyBounce 1.6s ease-in-out infinite; transform-origin: 250px 560px; }
+
+  /* Waving arm */
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(-16deg); }
+  }
+  #leftArm { animation: wave 1.6s ease-in-out infinite; transform-origin: 205px 410px; }
+
+  /* Sun: a slow steady rotation */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #sunFlower { animation: spin 14s linear infinite; transform-origin: 360px 130px; }
+  #miniSun   { animation: spin 9s linear infinite reverse; transform-origin: 232px 218px; }
+  #blueFlower{ animation: spin 16s linear infinite; transform-origin: 78px 252px; }
+
+  /* Butterfly: floats up and down + gentle flap */
+  @keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-26px); }
+  }
+  #butterfly { animation: floatUpDown 2.4s ease-in-out infinite; }
+
+  @keyframes flapL { 0%,100%{ transform: scaleX(1); } 50%{ transform: scaleX(.72); } }
+  @keyframes flapR { 0%,100%{ transform: scaleX(1); } 50%{ transform: scaleX(.72); } }
+  #wingL { animation: flapL 0.45s ease-in-out infinite; transform-origin: 120px 130px; transform-box: fill-box; transform-origin: right center;}
+  #wingR { animation: flapR 0.45s ease-in-out infinite; transform-origin: 120px 130px; transform-box: fill-box; transform-origin: left center;}
+
+  /* little butterfly bottom-right also drifts */
+  #miniButterfly { animation: floatUpDown 3s ease-in-out infinite; }
+
+  /* Hearts: gentle pulse */
+  @keyframes beat { 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.18);} }
+  .heart { animation: beat 1.3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .heart:nth-of-type(2){ animation-delay: .2s; }
+  .heart:nth-of-type(3){ animation-delay: .5s; }
+  .heart:nth-of-type(4){ animation-delay: .7s; }
+  .heart:nth-of-type(5){ animation-delay: .35s; }
+
+  /* Flowers sway */
+  @keyframes sway { 0%,100%{ transform: rotate(-4deg);} 50%{ transform: rotate(4deg);} }
+  .sway { animation: sway 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: bottom center; }
+  .sway:nth-of-type(even){ animation-delay: .6s; }
+
+  /* Grass blades wiggle */
+  @keyframes grassWiggle { 0%,100%{ transform: skewX(0deg);} 50%{ transform: skewX(5deg);} }
+  #grass { animation: grassWiggle 3.5s ease-in-out infinite; transform-origin: 270px 600px; }
+
+  /* Name clouds: soft drift */
+  @keyframes drift { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(4px,-5px);} }
+  .nameCloud { animation: drift 4s ease-in-out infinite; }
+  .nameCloud:nth-of-type(2){ animation-delay: 1s; }
+  .nameCloud:nth-of-type(3){ animation-delay: 2s; }
+  .nameCloud:nth-of-type(4){ animation-delay: 1.5s; }
+
+  /* twinkle stars */
+  @keyframes twinkle { 0%,100%{ opacity:.35; transform: scale(.8);} 50%{ opacity:1; transform: scale(1.2);} }
+  .star { animation: twinkle 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .star:nth-of-type(odd){ animation-delay: .9s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="paper">
+<svg viewBox="0 0 540 620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .ink   { stroke:#2b2b2b; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+      .ink2  { stroke:#2b2b2b; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none; }
+      text   { font-family:'Gochi Hand', cursive; }
+    </style>
+  </defs>
+
+  <!-- corner crayon scribble (top right) -->
+  <path d="M430 18 q40 -6 90 6" stroke="#f4892b" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/>
+  <path d="M420 30 q50 0 100 10" stroke="#f4892b" stroke-width="7" fill="none" stroke-linecap="round" opacity=".7"/>
+
+  <!-- ground / grass -->
+  <g id="grass">
+    <path d="M0 560 Q60 540 120 558 T260 552 T400 558 T540 548 L540 620 L0 620 Z" fill="#9ed36a"/>
+    <g stroke="#5aa83a" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M40 560 l-6 -22 M52 560 l2 -26 M64 560 l8 -20"/>
+      <path d="M150 556 l-5 -24 M162 556 l3 -26 M174 556 l9 -20"/>
+      <path d="M300 556 l-5 -24 M312 556 l3 -26 M324 556 l9 -20"/>
+      <path d="M440 556 l-5 -24 M452 556 l3 -26 M464 556 l9 -20"/>
+    </g>
+  </g>
+
+  <!-- ░░ SUN FLOWER (rotating) — top right ░░ -->
+  <g id="sunFlower">
+    <g>
+      <!-- petals -->
+      <g fill="#f04e23">
+        <!-- generate 12 petals around center 360,130 r ~ 42 -->
+        <ellipse cx="360" cy="78"  rx="11" ry="26"/>
+        <ellipse cx="386" cy="86"  rx="11" ry="26" transform="rotate(30 386 86)"/>
+        <ellipse cx="404" cy="104" rx="11" ry="26" transform="rotate(60 404 104)"/>
+        <ellipse cx="412" cy="130" rx="11" ry="26" transform="rotate(90 412 130)"/>
+        <ellipse cx="404" cy="156" rx="11" ry="26" transform="rotate(120 404 156)"/>
+        <ellipse cx="386" cy="174" rx="11" ry="26" transform="rotate(150 386 174)"/>
+        <ellipse cx="360" cy="182" rx="11" ry="26"/>
+        <ellipse cx="334" cy="174" rx="11" ry="26" transform="rotate(30 334 174)"/>
+        <ellipse cx="316" cy="156" rx="11" ry="26" transform="rotate(60 316 156)"/>
+        <ellipse cx="308" cy="130" rx="11" ry="26" transform="rotate(90 308 130)"/>
+        <ellipse cx="316" cy="104" rx="11" ry="26" transform="rotate(120 316 104)"/>
+        <ellipse cx="334" cy="86"  rx="11" ry="26" transform="rotate(150 334 86)"/>
+      </g>
+      <circle cx="360" cy="130" r="40" fill="#ffd23e"/>
+      <circle cx="360" cy="130" r="40" class="ink"/>
+      <!-- glasses -->
+      <circle cx="346" cy="126" r="10" class="ink2"/>
+      <circle cx="374" cy="126" r="10" class="ink2"/>
+      <path d="M356 126 q4 -4 8 0" class="ink2"/>
+      <circle cx="346" cy="126" r="2.5" fill="#2b2b2b"/>
+      <circle cx="374" cy="126" r="2.5" fill="#2b2b2b"/>
+      <!-- smile -->
+      <path d="M344 146 q16 16 32 0" class="ink"/>
+    </g>
+  </g>
+
+  <!-- ░░ small yellow sun (rotating) ░░ -->
+  <g id="miniSun">
+    <g stroke="#f6b800" stroke-width="3" stroke-linecap="round">
+      <line x1="232" y1="190" x2="232" y2="178"/>
+      <line x1="232" y1="246" x2="232" y2="258"/>
+      <line x1="204" y1="218" x2="192" y2="218"/>
+      <line x1="260" y1="218" x2="272" y2="218"/>
+      <line x1="212" y1="198" x2="204" y2="190"/>
+      <line x1="252" y1="198" x2="260" y2="190"/>
+      <line x1="212" y1="238" x2="204" y2="246"/>
+      <line x1="252" y1="238" x2="260" y2="246"/>
+    </g>
+    <circle cx="232" cy="218" r="18" fill="#ffd23e" class="ink2"/>
+  </g>
+
+  <!-- ░░ blue smiley flower (rotating) — left ░░ -->
+  <g id="blueFlower">
+    <g fill="#2da9e1">
+      <circle cx="78" cy="210" r="16"/>
+      <circle cx="113" cy="231" r="16"/>
+      <circle cx="113" cy="273" r="16"/>
+      <circle cx="78" cy="294" r="16"/>
+      <circle cx="43" cy="273" r="16"/>
+      <circle cx="43" cy="231" r="16"/>
+    </g>
+    <circle cx="78" cy="252" r="24" fill="#ffd23e"/>
+    <circle cx="78" cy="252" r="24" class="ink2"/>
+    <circle cx="71" cy="248" r="2.5" fill="#2b2b2b"/>
+    <circle cx="85" cy="248" r="2.5" fill="#2b2b2b"/>
+    <path d="M70 260 q8 8 16 0" class="ink2"/>
+  </g>
+
+  <!-- ░░ BUTTERFLY (up & down) — top left ░░ -->
+  <g id="butterfly">
+    <g>
+      <!-- wings -->
+      <g id="wingL">
+        <path d="M120 130 C70 90 40 110 56 140 C40 168 78 182 120 150 Z" fill="#7ac143" class="ink2"/>
+        <path d="M64 118 l40 22 M58 150 l46 -8" stroke="#3f7d1f" stroke-width="2" fill="none"/>
+      </g>
+      <g id="wingR">
+        <path d="M120 130 C170 90 200 110 184 140 C200 168 162 182 120 150 Z" fill="#7ac143" class="ink2"/>
+        <path d="M176 118 l-40 22 M182 150 l-46 -8" stroke="#3f7d1f" stroke-width="2" fill="none"/>
+      </g>
+      <!-- body -->
+      <ellipse cx="120" cy="142" rx="9" ry="30" fill="#f4892b" class="ink2"/>
+      <line x1="120" y1="118" x2="120" y2="168" stroke="#c25e12" stroke-width="2"/>
+      <!-- head -->
+      <circle cx="120" cy="104" r="16" fill="#f4a9c0" class="ink2"/>
+      <circle cx="114" cy="102" r="2.5" fill="#2b2b2b"/>
+      <circle cx="126" cy="102" r="2.5" fill="#2b2b2b"/>
+      <path d="M114 110 q6 5 12 0" class="ink2"/>
+      <!-- antennae -->
+      <path d="M112 92 q-8 -12 -16 -14" class="ink2"/>
+      <path d="M128 92 q8 -12 16 -14" class="ink2"/>
+      <circle cx="95" cy="77" r="3.5" fill="#f04e23"/>
+      <circle cx="145" cy="77" r="3.5" fill="#f04e23"/>
+    </g>
+  </g>
+
+  <!-- ░░ NAME CLOUDS ░░ -->
+  <g class="nameCloud">
+    <path d="M150 248 q-8 -26 22 -24 q6 -22 36 -14 q22 -16 40 6 q24 -2 16 22 q14 18 -10 26 q-6 18 -34 10 q-22 14 -42 -6 q-26 4 -28 -20 Z" fill="#eaf6fd" stroke="#56c2f0" stroke-width="2.5"/>
+    <text x="200" y="252" font-size="30" fill="#3aa0e0" text-anchor="middle">Reza</text>
+  </g>
+  <g class="nameCloud">
+    <path d="M268 250 q-8 -26 22 -24 q6 -22 36 -14 q22 -16 40 6 q24 -2 16 22 q14 18 -10 26 q-6 18 -34 10 q-22 14 -42 -6 q-26 4 -28 -20 Z" fill="#fdeef6" stroke="#e58fc2" stroke-width="2.5"/>
+    <text x="318" y="254" font-size="30" fill="#8a5cd1" text-anchor="middle">Elsa</text>
+  </g>
+  <g class="nameCloud">
+    <path d="M330 372 q-8 -26 22 -24 q6 -22 36 -14 q22 -16 40 6 q24 -2 16 22 q14 18 -10 26 q-6 18 -34 10 q-22 14 -42 -6 q-26 4 -28 -20 Z" fill="#fdeef0" stroke="#e58f9a" stroke-width="2.5"/>
+    <text x="380" y="376" font-size="30" fill="#d35a78" text-anchor="middle">Parsa</text>
+  </g>
+  <g class="nameCloud">
+    <path d="M60 470 q-8 -26 22 -24 q6 -22 36 -14 q22 -16 40 6 q24 -2 16 22 q14 18 -10 26 q-6 18 -34 10 q-22 14 -42 -6 q-26 4 -28 -20 Z" fill="#fdeef0" stroke="#e58f9a" stroke-width="2.5"/>
+    <text x="110" y="474" font-size="28" fill="#d35a78" text-anchor="middle">Hannah</text>
+  </g>
+
+  <!-- ░░ BOY (happy bounce) ░░ -->
+  <g id="boy">
+    <!-- legs -->
+    <rect x="222" y="492" width="22" height="44" rx="8" fill="#3f7fbf"/>
+    <rect x="258" y="492" width="22" height="44" rx="8" fill="#3f7fbf"/>
+    <!-- shoes -->
+    <path d="M214 536 q-2 16 14 16 l18 0 q4 -16 -2 -22 Z" fill="#7a4fc4" class="ink2"/>
+    <path d="M254 536 q-2 16 14 16 l18 0 q4 -16 -2 -22 Z" fill="#7a4fc4" class="ink2"/>
+    <path d="M214 548 l30 0 M254 548 l30 0" stroke="#fff" stroke-width="3"/>
+    <!-- shorts -->
+    <path d="M214 452 q36 14 72 0 l4 46 q-40 12 -80 0 Z" fill="#3f7fbf" class="ink2"/>
+    <path d="M250 470 l0 28" stroke="#2b2b2b" stroke-width="2"/>
+    <!-- belt -->
+    <rect x="212" y="446" width="76" height="10" rx="3" fill="#7a4fc4"/>
+    <rect x="244" y="445" width="12" height="12" rx="2" fill="#ffd23e" class="ink2"/>
+    <!-- left arm (waving) -->
+    <g id="leftArm">
+      <path d="M214 408 q-22 6 -28 34" stroke="#7a4fc4" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <circle cx="184" cy="446" r="9" fill="#ffd9b3" class="ink2"/>
+    </g>
+    <!-- right arm holding flowers -->
+    <path d="M286 408 q24 8 30 36" stroke="#7a4fc4" stroke-width="18" fill="none" stroke-linecap="round"/>
+    <circle cx="318" cy="448" r="9" fill="#ffd9b3" class="ink2"/>
+    <!-- shirt -->
+    <path d="M214 402 q36 -16 72 0 l2 50 q-38 12 -76 0 Z" fill="#f4892b" class="ink2"/>
+    <!-- head -->
+    <circle cx="250" cy="370" r="34" fill="#ffd9b3" class="ink2"/>
+    <!-- hair -->
+    <path d="M216 366 q-2 -34 34 -38 q40 -2 36 36 q-10 -16 -22 -12 q-6 -14 -22 -8 q-14 -2 -16 12 q-8 -2 -10 10 Z" fill="#7a4a22" class="ink2"/>
+    <!-- eyes -->
+    <circle cx="238" cy="368" r="4" fill="#2b6fb0"/>
+    <circle cx="262" cy="368" r="4" fill="#2b6fb0"/>
+    <!-- rosy cheeks -->
+    <circle cx="230" cy="382" r="6" fill="#ffb3b3" opacity=".7"/>
+    <circle cx="270" cy="382" r="6" fill="#ffb3b3" opacity=".7"/>
+    <!-- big happy smile -->
+    <path d="M236 384 q14 20 28 0 q-14 6 -28 0 Z" fill="#c0392b" class="ink2"/>
+    <!-- flowers in hand -->
+    <g class="sway">
+      <line x1="320" y1="446" x2="330" y2="404" stroke="#3f7d1f" stroke-width="3"/>
+      <line x1="320" y1="446" x2="316" y2="408" stroke="#3f7d1f" stroke-width="3"/>
+      <line x1="320" y1="446" x2="344" y2="414" stroke="#3f7d1f" stroke-width="3"/>
+      <g fill="#e056a0"><circle cx="330" cy="400" r="9"/><circle cx="314" cy="404" r="8"/><circle cx="346" cy="410" r="8"/></g>
+      <g fill="#ffd23e"><circle cx="330" cy="400" r="3.5"/><circle cx="314" cy="404" r="3"/><circle cx="346" cy="410" r="3"/></g>
+    </g>
+  </g>
+
+  <!-- ░░ flower basket bottom-left ░░ -->
+  <g class="sway">
+    <g fill="#7a4fc4"><circle cx="120" cy="356" r="9"/><circle cx="138" cy="350" r="9"/><circle cx="156" cy="356" r="9"/><circle cx="138" cy="338" r="9"/></g>
+    <g fill="#e056a0"><circle cx="138" cy="349" r="4"/></g>
+    <path d="M104 366 l64 0 l-8 30 l-48 0 Z" fill="#2b2b2b"/>
+    <path d="M112 374 l44 0 M116 384 l36 0" stroke="#fff" stroke-width="2"/>
+  </g>
+
+  <!-- ░░ scattered flowers on grass ░░ -->
+  <g class="sway"><circle cx="60" cy="566" r="7" fill="#e056a0"/><circle cx="60" cy="566" r="3" fill="#ffd23e"/><line x1="60" y1="573" x2="60" y2="588" stroke="#3f7d1f" stroke-width="2"/></g>
+  <g class="sway"><circle cx="200" cy="572" r="7" fill="#7a4fc4"/><circle cx="200" cy="572" r="3" fill="#ffd23e"/><line x1="200" y1="579" x2="200" y2="592" stroke="#3f7d1f" stroke-width="2"/></g>
+  <g class="sway"><circle cx="330" cy="568" r="7" fill="#f04e23"/><circle cx="330" cy="568" r="3" fill="#ffd23e"/><line x1="330" y1="575" x2="330" y2="590" stroke="#3f7d1f" stroke-width="2"/></g>
+  <g class="sway"><circle cx="470" cy="572" r="7" fill="#2da9e1"/><circle cx="470" cy="572" r="3" fill="#ffd23e"/><line x1="470" y1="579" x2="470" y2="592" stroke="#3f7d1f" stroke-width="2"/></g>
+
+  <!-- ░░ hearts (beating) ░░ -->
+  <path class="heart" d="M470 150 c-6 -10 -22 -4 -16 8 c2 6 16 14 16 14 c0 0 14 -8 16 -14 c6 -12 -10 -18 -16 -8 Z" fill="#f04e23"/>
+  <path class="heart" d="M180 220 c-4 -7 -15 -3 -11 6 c2 4 11 9 11 9 c0 0 9 -5 11 -9 c4 -9 -7 -13 -11 -6 Z" fill="#56c2f0"/>
+  <path class="heart" d="M300 446 c-4 -7 -15 -3 -11 6 c2 4 11 9 11 9 c0 0 9 -5 11 -9 c4 -9 -7 -13 -11 -6 Z" fill="#f04e23"/>
+  <path class="heart" d="M330 470 c-4 -7 -15 -3 -11 6 c2 4 11 9 11 9 c0 0 9 -5 11 -9 c4 -9 -7 -13 -11 -6 Z" fill="#e056a0"/>
+  <path class="heart" d="M40 380 c-4 -7 -15 -3 -11 6 c2 4 11 9 11 9 c0 0 9 -5 11 -9 c4 -9 -7 -13 -11 -6 Z" fill="#f04e23"/>
+
+  <!-- ░░ mini butterfly bottom-right ░░ -->
+  <g id="miniButterfly">
+    <g transform="translate(442 470) scale(.8)">
+      <path d="M0 0 C-22 -16 -34 0 -22 12 C-34 22 -10 30 0 14 Z" fill="#c9a0e0" class="ink2"/>
+      <path d="M0 0 C22 -16 34 0 22 12 C34 22 10 30 0 14 Z" fill="#c9a0e0" class="ink2"/>
+      <ellipse cx="0" cy="8" rx="4" ry="14" fill="#f4892b"/>
+      <circle cx="0" cy="-8" r="7" fill="#f4a9c0" class="ink2"/>
+      <path d="M-3 -2 q3 3 6 0" class="ink2"/>
+    </g>
+  </g>
+
+  <!-- ░░ twinkle stars ░░ -->
+  <g fill="#f6b800">
+    <path class="star" d="M160 300 l3 8 l8 1 l-6 6 l2 8 l-7 -4 l-7 4 l2 -8 l-6 -6 l8 -1 Z"/>
+    <path class="star" d="M430 300 l3 8 l8 1 l-6 6 l2 8 l-7 -4 l-7 4 l2 -8 l-6 -6 l8 -1 Z" fill="#56c2f0"/>
+    <path class="star" d="M170 430 l3 8 l8 1 l-6 6 l2 8 l-7 -4 l-7 4 l2 -8 l-6 -6 l8 -1 Z" fill="#e056a0"/>
+    <path class="star" d="M250 250 l2.5 7 l7 1 l-5 5 l1.5 7 l-6 -3.5 l-6 3.5 l1.5 -7 l-5 -5 l7 -1 Z" fill="#7ac143"/>
+  </g>
+</svg>
+</div>
+</body>
+</html>
